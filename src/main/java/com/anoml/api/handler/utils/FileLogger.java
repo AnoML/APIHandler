@@ -41,7 +41,7 @@ public class FileLogger {
     }
 
     public static void writeFile(String content) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter("/home/anoml/API-Handler-Log.log", true));
+        BufferedWriter writer = new BufferedWriter(new FileWriter("/home/anoml/API-Handler-Log.log", false));
         writer.newLine();
         writer.append(content);
         writer.close();
