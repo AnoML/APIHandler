@@ -26,6 +26,7 @@ public class CustomAPIHandler extends AbstractHandler implements ManagedLifecycl
             logger.error(e.getMessage(), e);
             return false;
         }
+
         return true;
     }
 
@@ -44,6 +45,26 @@ public class CustomAPIHandler extends AbstractHandler implements ManagedLifecycl
     @Override
     public void init(SynapseEnvironment se) {
         logger.error("Inside CustomAPIHandler - init");
+
+
+//      To simulate high heap usage
+        int dummyArraySize = 15;
+        long memoryConsumed = 0;
+        long[] memoryAllocated = null;
+        for (int loop = 0; loop < Integer.MAX_VALUE; loop++) {
+            memoryAllocated = new long[dummyArraySize];
+            memoryAllocated[0] = 0;
+            memoryConsumed += dummyArraySize * Long.SIZE;
+            logger.info("Memory Consumed till now: " + memoryConsumed);
+
+            dummyArraySize *= dummyArraySize * 2;
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                logger.error(e.getMessage(), e);
+            }
+        }
+//       End simulation
         try {
             FileLogger.createFile("Handler Initialization");
         } catch (IOException e) {
