@@ -12,29 +12,43 @@ public class HighMemoryAPIHandler extends AbstractHandler implements ManagedLife
 
     public boolean handleRequest(MessageContext messageContext) {
         logger.error("Inside HighCPUAPIHandler - handleRequest");
-
         try {
-            int arraySize = 5000000;
-            long[] memoryAllocated = null;
-            for (int loop = 0; loop < 100; loop++) {
-                memoryAllocated = new long[arraySize];
-            }
+            final int arraySize = 5000000;
+
+            Thread thread = new Thread() {
+                public void run() {
+                    long[] memoryAllocated = null;
+                    for (int loop = 0; loop < 1000; loop++) {
+                        memoryAllocated = new long[arraySize];
+                        logger.info("Access array: " + memoryAllocated[0]);
+                    }
+                }
+            };
+
+            thread.start();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return false;
         }
-
         return true;
     }
 
     public boolean handleResponse(MessageContext messageContext) {
-        logger.error("Inside HighCPUAPIHandler - handleResponse");
+        logger.error("Inside HighMemoryAPIHandler - handleResponse");
         try {
-            int arraySize = 5000000;
-            long[] memoryAllocated = null;
-            for (int loop = 0; loop < 100; loop++) {
-                memoryAllocated = new long[arraySize];
-            }
+            final int arraySize = 5000000;
+
+            Thread thread = new Thread() {
+                public void run() {
+                    long[] memoryAllocated = null;
+                    for (int loop = 0; loop < 1000; loop++) {
+                        memoryAllocated = new long[arraySize];
+                        logger.info("Access array: " + memoryAllocated[0]);
+                    }
+                }
+            };
+
+            thread.start();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return false;
